@@ -1,7 +1,5 @@
 import React from "react";
 import Layout from "../pages/Layout";
-import {useLocation} from "react-router-dom";
-
 
 function About() {
     return (

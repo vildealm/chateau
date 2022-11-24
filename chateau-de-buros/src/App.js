@@ -11,7 +11,6 @@ import TravelInfo from "./pages/TravelInfo";
 import Home from "./pages/Home";
 import Menu from "./pages/Menu";
 import About from "./pages/About";
-import Layout from "./pages/Layout";
 
 function App() {
   return (

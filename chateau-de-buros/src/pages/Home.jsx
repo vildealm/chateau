@@ -6,7 +6,7 @@ function Home() {
     return (
       <>
       <Layout />
-        <h2>Hjem</h2>
+        <h2>Home</h2>
       </>
     );
   }
