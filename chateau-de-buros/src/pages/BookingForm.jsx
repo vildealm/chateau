@@ -10,7 +10,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 
-const BookingForm = ({chooseFirstname}) => {
+const BookingForm = ({chooseFirstname, chooseLastname, chooseStartDate, chooseEndDate, checkin, checkout}) => {
 
     //Variables
     const minDate = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
@@ -25,6 +25,30 @@ const BookingForm = ({chooseFirstname}) => {
         </Typography>
         <Grid container spacing={3}>
             <Grid item xs={12} sm={6}>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker
+                    label="Check-in"
+                    value={checkin}
+                    minDate={minDate}
+                    maxDate={maxDate}
+                    onChange={(date) => chooseStartDate(date)}
+                    renderInput={(params) => <TextField {...params} />}
+                />
+            </LocalizationProvider>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker
+                    label="Check-out"
+                    value={checkout}
+                    minDate={minDate1}
+                    maxDate={maxDate}
+                    onChange={(date) => chooseEndDate(date)}
+                    renderInput={(params) => <TextField {...params} />}
+                />
+            </LocalizationProvider>
+            </Grid>
+            <Grid item xs={12} sm={6}>
             <TextField
                 required
                 id="firstName"
@@ -33,6 +57,18 @@ const BookingForm = ({chooseFirstname}) => {
                 onChange={(e) => chooseFirstname(e.target.value)}
                 fullWidth
                 autoComplete="given-name"
+                variant="standard"
+            />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+            <TextField
+                required
+                id="lastName"
+                name="lastName"
+                label="Last name"
+                onChange={(e) => chooseLastname(e.target.value)}
+                fullWidth
+                autoComplete="family-name"
                 variant="standard"
             />
             </Grid>
@@ -45,42 +81,7 @@ const BookingForm = ({chooseFirstname}) => {
 export default BookingForm;
 
 /*
-<Grid item xs={12} sm={6}>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker
-                    label="Check-in"
-                    value={startDate}
-                    minDate={minDate}
-                    maxDate={maxDate}
-                    onChange={(date) => setStartDate(date)}
-                    renderInput={(params) => <TextField {...params} />}
-                />
-            </LocalizationProvider>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker
-                    label="Check-out"
-                    value={endDate}
-                    minDate={minDate1}
-                    maxDate={maxDate}
-                    onChange={(date) => setEndDate(date)}
-                    renderInput={(params) => <TextField {...params} />}
-                />
-            </LocalizationProvider>
-            </Grid>
-<Grid item xs={12} sm={6}>
-            <TextField
-                required
-                id="lastName"
-                name="lastName"
-                label="Last name"
-                onChange={(value) => setLastname(value)}
-                fullWidth
-                autoComplete="family-name"
-                variant="standard"
-            />
-            </Grid>
+
             <Grid item xs={12}>
             <TextField
                 required
