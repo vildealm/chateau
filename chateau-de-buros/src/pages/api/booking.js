@@ -1,17 +1,15 @@
-import client from "../../client";
+import {sanityClient} from "../../client";
 
 export default async function handler(req, res) {
   switch (req.method) {
     case "POST":
       const newBooking = await JSON.parse(req.body);
       try {
-        await client
+        await sanityClient
           .create({
-            _type: "booking",
+            _type: "orders",
             firstname: newBooking.firstname,
             lastname: newBooking.lastname,
-            checkin: newBooking.checkin,
-            checkout: newBooking.checkout
           })
           .then((res) => {
             console.log(`Booking was created, document ID is ${res._id}`);

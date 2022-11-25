@@ -25,30 +25,6 @@ const BookingForm = ({chooseFirstname, chooseLastname, chooseStartDate, chooseEn
         </Typography>
         <Grid container spacing={3}>
             <Grid item xs={12} sm={6}>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker
-                    label="Check-in"
-                    value={checkin}
-                    minDate={minDate}
-                    maxDate={maxDate}
-                    onChange={(date) => chooseStartDate(date)}
-                    renderInput={(params) => <TextField {...params} />}
-                />
-            </LocalizationProvider>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker
-                    label="Check-out"
-                    value={checkout}
-                    minDate={minDate1}
-                    maxDate={maxDate}
-                    onChange={(date) => chooseEndDate(date)}
-                    renderInput={(params) => <TextField {...params} />}
-                />
-            </LocalizationProvider>
-            </Grid>
-            <Grid item xs={12} sm={6}>
             <TextField
                 required
                 id="firstName"
@@ -81,6 +57,30 @@ const BookingForm = ({chooseFirstname, chooseLastname, chooseStartDate, chooseEn
 export default BookingForm;
 
 /*
+<Grid item xs={12} sm={6}>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker
+                    label="Check-in"
+                    value={checkin}
+                    minDate={minDate}
+                    maxDate={maxDate}
+                    onChange={(date) => chooseStartDate(date)}
+                    renderInput={(params) => <TextField {...params} />}
+                />
+            </LocalizationProvider>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker
+                    label="Check-out"
+                    value={checkout}
+                    minDate={minDate1}
+                    maxDate={maxDate}
+                    onChange={(date) => chooseEndDate(date)}
+                    renderInput={(params) => <TextField {...params} />}
+                />
+            </LocalizationProvider>
+            </Grid>
 
             <Grid item xs={12}>
             <TextField
