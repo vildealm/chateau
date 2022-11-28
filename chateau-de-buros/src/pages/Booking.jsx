@@ -58,8 +58,6 @@ const Booking = () => {
     if (firstname.length === 0 || lastname.length === 0) {
       setErrMessage("Firstname must be filled out.");
     } else {
-      //otherwise send the todo to our api
-      // (we'll make this next!)
       await fetch("./api/booking", {
         method: "POST",
         body: JSON.stringify({
@@ -67,13 +65,11 @@ const Booking = () => {
           lastname: lastname,
         }),
       });
-      // await fetchTodos(); //(we'll add this later)
-      // Clear all inputs after the todo is sent to Sanity
+
       setFirstname("");
       setLastname("");
       setErrMessage("");
       navigate("/");
-
     }
   };
 
