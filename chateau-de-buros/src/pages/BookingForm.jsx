@@ -20,15 +20,15 @@ const BookingForm = ({chooseFirstname, chooseLastname, chooseStartDate, chooseEn
     const maxDate = new Date(new Date().getFullYear()+1, new Date().getMonth(), new Date().getDate());
     return (
         <Form>
-      <Form.Group className="mb-3" controlId="formFname">
-        <Form.Label onChange={chooseFirstname}>Firstname</Form.Label>
-        <Form.Control type="name" placeholder="Enter firstname" />
-      </Form.Group>
+            <Form.Group className="mb-3" controlId="formFname">
+                <Form.Label >Firstname</Form.Label>
+                <Form.Control type="name" placeholder="Enter firstname" onChange={(e)=> chooseFirstname(e.target.value)} />
+            </Form.Group>
 
-      <Form.Group className="mb-3" controlId="formLname">
-        <Form.Label onChange={chooseFirstname}>Lastname</Form.Label>
-        <Form.Control type="name" placeholder="Enter lastname" />
-      </Form.Group>
+            <Form.Group className="mb-3" controlId="formLname">
+                <Form.Label>Lastname</Form.Label>
+                <Form.Control type="name" placeholder="Enter lastname" onChange={(e) => chooseLastname(e.target.value)} />
+            </Form.Group>
     </Form>
     )
 }

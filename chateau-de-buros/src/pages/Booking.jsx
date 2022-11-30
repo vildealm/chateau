@@ -11,6 +11,7 @@ import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
+import sanityClient from '../client';
 
 
 const steps = ['Booking', 'Review your booking'];
@@ -31,6 +32,28 @@ function getStepContent(step, setFirstname, firstname, lastname, setLastname) {
       throw new Error('Unknown step');
   }
 }
+
+/*async function handler(req, res) {
+  const {newBooking} = await JSON.parse(req.body);
+  console.log("MEMEME" + newBooking)
+  try {
+    await sanityClient
+      .create({
+        _type: "booking",
+        firstname: newBooking.firstname,
+        lastname: newBooking.lastname,
+      })
+      .then((res) => {
+        console.log(`Booking was created, document ID is ${res._id}`);
+      });
+    res
+      .status(200)
+      .json({ msg: `Booking was created, document ID is ${res._id}` });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ msg: "Error, check console" });
+  }
+}*/
 
 const Booking = () => {
   //Variable
@@ -53,23 +76,30 @@ const Booking = () => {
   const [errMessage, setErrMessage] = useState("");
 
   //FOR THE SUBMIT BUTTON:
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async (req, res) => {
+    req.preventDefault();
+    const {newBooking} = await JSON.parse(req.body);
+    console.log("MEMEME" + newBooking)
     if (firstname.length === 0 || lastname.length === 0) {
       setErrMessage("Firstname must be filled out.");
     } else {
-      await fetch("./api/booking", {
-        method: "POST",
-        body: JSON.stringify({
-          firstname: firstname,
-          lastname: lastname,
-        }),
-      });
-
-      setFirstname("");
-      setLastname("");
-      setErrMessage("");
-      navigate("/");
+        try {
+          await sanityClient
+          .create({
+            _type: "booking",
+            firstname: newBooking.firstname,
+            lastname: newBooking.lastname,
+          })
+          .then((res) => {
+            console.log(`Booking was created, document ID is ${res._id}`);
+          });
+        res
+          .status(200)
+          .json({ msg: `Booking was created, document ID is ${res._id}` });
+      } catch (err) {
+        console.error(err);
+        res.status(500).json({ msg: "Error, check console" });
+      }
     }
   };
 
@@ -139,3 +169,17 @@ const Booking = () => {
   }
 
 export default Booking;
+/*
+await fetch("./api/booking", {
+        method: "POST",
+        body: JSON.stringify({
+          firstname: firstname,
+          lastname: lastname,
+        }),
+      });
+
+      setFirstname("");
+      setLastname("");
+      setErrMessage("");
+      navigate("/");
+*/
