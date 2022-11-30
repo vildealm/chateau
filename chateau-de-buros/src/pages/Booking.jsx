@@ -129,20 +129,13 @@ const Booking = () => {
                 >
                 Next
                 </Button>}
-
               </Box>
             </React.Fragment>
           )}
         </Paper>
       </Container>
       </>
-
     );
   }
 
 export default Booking;
-/*
-
-
-
-*/

@@ -1,15 +1,13 @@
-import sanityClient from "../../client";
+import {client} from "../../client";
 
 export default async function handler(req, res) {
-  console.log("MEMEMEM#")
   switch (req.method) {
     case "POST":
-      console.log("HEYEYE")
       const newBooking = await JSON.parse(req.body);
       try {
-        await sanityClient
+        await client
           .create({
-            _type: "test",
+            _type: "booking",
             firstname: newBooking.firstname,
             lastname: newBooking.lastname,
           })

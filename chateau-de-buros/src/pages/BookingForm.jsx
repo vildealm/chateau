@@ -9,6 +9,8 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 
 const BookingForm = ({chooseFirstname, chooseLastname, chooseStartDate, chooseEndDate, checkin, checkout}) => {
 
@@ -16,115 +18,20 @@ const BookingForm = ({chooseFirstname, chooseLastname, chooseStartDate, chooseEn
     const minDate = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
     const minDate1 = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()+1);
     const maxDate = new Date(new Date().getFullYear()+1, new Date().getMonth(), new Date().getDate());
-
     return (
-       <>
-       <React.Fragment>
-        <Typography variant="h6" gutterBottom>
-            Booking details
-        </Typography>
-        <Grid container spacing={3}>
-            <Grid item xs={12} sm={6}>
-            <TextField
-                required
-                id="firstName"
-                name="firstName"
-                label="First name"
-                onChange={(e) => chooseFirstname(e.target.value)}
-                fullWidth
-                autoComplete="given-name"
-                variant="standard"
-            />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-            <TextField
-                required
-                id="lastName"
-                name="lastName"
-                label="Last name"
-                onChange={(e) => chooseLastname(e.target.value)}
-                fullWidth
-                autoComplete="family-name"
-                variant="standard"
-            />
-            </Grid>
-        </Grid>
-        </React.Fragment>
-       </>
+        <Form>
+      <Form.Group className="mb-3" controlId="formFname">
+        <Form.Label onChange={chooseFirstname}>Firstname</Form.Label>
+        <Form.Control type="name" placeholder="Enter firstname" />
+      </Form.Group>
+
+      <Form.Group className="mb-3" controlId="formLname">
+        <Form.Label onChange={chooseFirstname}>Lastname</Form.Label>
+        <Form.Control type="name" placeholder="Enter lastname" />
+      </Form.Group>
+    </Form>
     )
 }
 
 export default BookingForm;
 
-/*
-<Grid item xs={12} sm={6}>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker
-                    label="Check-in"
-                    value={checkin}
-                    minDate={minDate}
-                    maxDate={maxDate}
-                    onChange={(date) => chooseStartDate(date)}
-                    renderInput={(params) => <TextField {...params} />}
-                />
-            </LocalizationProvider>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker
-                    label="Check-out"
-                    value={checkout}
-                    minDate={minDate1}
-                    maxDate={maxDate}
-                    onChange={(date) => chooseEndDate(date)}
-                    renderInput={(params) => <TextField {...params} />}
-                />
-            </LocalizationProvider>
-            </Grid>
-
-            <Grid item xs={12}>
-            <TextField
-                required
-                id="email"
-                name="email"
-                label="Email"
-                onChange={(value) => setEmail(value)}
-                fullWidth
-                autoComplete="email"
-                variant="standard"
-            />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-            <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">Office</InputLabel>
-            <Select
-                required
-                id="country"
-                name="country"
-                value={country}
-                label="Office"
-                onChange={handleCountry}
-            >
-                <MenuItem value={"Oslo"}>Oslo</MenuItem>
-                <MenuItem value={"Krakow"}>Krakow</MenuItem>
-                <MenuItem value={"Berlin"}>Berlin</MenuItem>
-                <MenuItem value={"Copenhagen"}>Copenhagen</MenuItem>
-            </Select>
-            </FormControl>
-            </Grid>
-
-*/
-
-/*<Grid item xs={12}>
-            <FormControlLabel
-                control={<Checkbox color="secondary" name="saveAddress" value="yes" />}
-                label="Use this address for payment details"
-            />
-            </Grid>*/
-
-
-/*
-
-
-
-*/
