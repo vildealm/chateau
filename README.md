@@ -1,2 +1,2 @@
 # chateau-de-buros
-Application for ordering and other features in chateau de buros
+Application for booking and other services at Chateau de Buros
