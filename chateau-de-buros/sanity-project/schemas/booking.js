@@ -1,13 +1,12 @@
 export default {
-    name: 'bookings',
+    name: 'booking',
     type: 'document',
-    title: 'Orders',
+    title: 'Booking',
     fields: [
       {
         name: 'check_in',
         type: 'datetime',
         title: 'Checkin',
-
       },
       {
         name: 'check_out',

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import { useNavigate } from "react-router-dom";
 import Typography from '@mui/material/Typography';
 import Stepper from '@mui/material/Stepper';
@@ -16,91 +16,47 @@ import sanityClient from '../client';
 
 const steps = ['Booking', 'Review your booking'];
 
-function getStepContent(step, setFirstname, firstname, lastname, setLastname) {
-  switch (step) {
-    case 0:
-      return <BookingForm
-                chooseFirstname={setFirstname}
-                chooseLastname={setLastname}
-              />;
-    case 1:
-      return <Review
-                firstname={firstname}
-                lastname={lastname}
-              />;
-    default:
-      throw new Error('Unknown step');
-  }
-}
 
-/*async function handler(req, res) {
-  const {newBooking} = await JSON.parse(req.body);
-  console.log("MEMEME" + newBooking)
-  try {
-    await sanityClient
-      .create({
-        _type: "booking",
-        firstname: newBooking.firstname,
-        lastname: newBooking.lastname,
-      })
-      .then((res) => {
-        console.log(`Booking was created, document ID is ${res._id}`);
-      });
-    res
-      .status(200)
-      .json({ msg: `Booking was created, document ID is ${res._id}` });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ msg: "Error, check console" });
-  }
-}*/
 
 const Booking = () => {
+
   //Variable
   let navigate = useNavigate();
 
-  //Function
-  const handleCountry = (event) => {
-    setCountry(event.target.value);
-  };
 
   //State
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [email, setEmail] = useState("");
-  const [country, setCountry] = useState("");
+  const [office, setOffice] = useState("");
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
-
   const [activeStep, setActiveStep] = React.useState(0);
   const [errMessage, setErrMessage] = useState("");
 
-  //FOR THE SUBMIT BUTTON:
-  const handleSubmit = async (req, res) => {
-    req.preventDefault();
-    const {newBooking} = await JSON.parse(req.body);
-    console.log("MEMEME" + newBooking)
-    if (firstname.length === 0 || lastname.length === 0) {
-      setErrMessage("Firstname must be filled out.");
-    } else {
-        try {
-          await sanityClient
-          .create({
-            _type: "booking",
-            firstname: newBooking.firstname,
-            lastname: newBooking.lastname,
-          })
-          .then((res) => {
-            console.log(`Booking was created, document ID is ${res._id}`);
-          });
-        res
-          .status(200)
-          .json({ msg: `Booking was created, document ID is ${res._id}` });
-      } catch (err) {
-        console.error(err);
-        res.status(500).json({ msg: "Error, check console" });
-      }
-    }
+  //Function
+  const chooseOffice = (event) => {
+    setOffice(event.target.value);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    sanityClient
+        .create({
+          _type: "booking",
+          checkin: startDate,
+          checkout: endDate,
+          firstname: firstname,
+          lastname: lastname,
+          email: email,
+          office: office,
+        })
+        .then(console.log);
+      sanityClient.fetch("*[_type == 'booking']").then(documents => console.log(documents))
+      setFirstname("");
+      setLastname("");
+      setErrMessage("");
+      navigate("/");
   };
 
   const handleNext = () => {
@@ -114,6 +70,32 @@ const Booking = () => {
   const routeChange = () =>{
       let path = `/`;
       navigate(path);
+  }
+
+  const getStepContent = (step) => {
+    switch (step) {
+      case 0:
+        return <BookingForm
+                  chooseFirstname={setFirstname}
+                  chooseLastname={setLastname}
+                  chooseEmail={setEmail}
+                  chooseOffice={chooseOffice}
+                  office={office}
+                  checkin={startDate}
+                  chooseStartDate={setStartDate}
+                  checkout={endDate}
+                  chooseEndDate={setEndDate}
+                />;
+      case 1:
+        return <Review
+                  firstname={firstname}
+                  lastname={lastname}
+                  email={email}
+                  office={office}
+                />;
+      default:
+        throw new Error('Unknown step');
+    }
   }
 
     return (
@@ -139,11 +121,11 @@ const Booking = () => {
             </React.Fragment>
           ) : (
             <React.Fragment>
-              {getStepContent(activeStep, setFirstname, firstname, lastname, setLastname)}
+              {getStepContent(activeStep)}
               <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                 {activeStep !== 0 && (
                   <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
-                    Back
+                  Back
                   </Button>
                 )}
                 {activeStep === steps.length - 1 ? <Button
@@ -151,14 +133,15 @@ const Booking = () => {
                   onClick={handleSubmit}
                   sx={{ mt: 3, ml: 1 }}
                 >
-                  Place order
+                Place order
                 </Button> : <Button
                   variant="contained"
                   onClick={handleNext}
                   sx={{ mt: 3, ml: 1 }}
                 >
                 Next
-                </Button>}
+                </Button>
+                }
               </Box>
             </React.Fragment>
           )}
