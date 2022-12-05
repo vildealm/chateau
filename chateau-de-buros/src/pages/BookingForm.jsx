@@ -13,8 +13,9 @@ import Select from '@mui/material/Select';
 import Form from 'react-bootstrap/Form';
 import "react-datepicker/dist/react-datepicker.css";
 import sanityClient from '../client';
+import "../styles/Form.css"
 
-const BookingForm = ({chooseFirstname, chooseLastname, chooseStartDate, chooseEndDate, chooseEmail, chooseOffice, checkin, checkout, office}) => {
+const BookingForm = ({chooseFirstname, chooseLastname, chooseStartDate, chooseEndDate, chooseEmail, chooseOffice, chooseRooms, chooseGuests, checkin, checkout, office, rooms, guests}) => {
 
     const [absences, setAbsences] = useState([]);
 
@@ -23,16 +24,16 @@ const BookingForm = ({chooseFirstname, chooseLastname, chooseStartDate, chooseEn
     }, []);
 
     console.log({absences});
+    console.log(checkin)
+    console.log("checkout" + checkout)
 
-    //Variables
-    const minDate = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
-    const minDate1 = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()+1);
-    const maxDate = new Date(new Date().getFullYear()+1, new Date().getMonth(), new Date().getDate());
     return (
         <Form>
             <Grid container spacing={3}>
                 <Grid item xs={12} sm={6}>
                     <DatePicker
+                        className="datepicker"
+                        placeholderText="Check-in"
                         selected={checkin}
                         excludeDateIntervals={absences.map(abs => ({ start: new Date(abs.start), end: new Date(abs.end) }))}
                         onChange={(date) => chooseStartDate(date)}
@@ -40,18 +41,54 @@ const BookingForm = ({chooseFirstname, chooseLastname, chooseStartDate, chooseEn
                 </Grid>
                 <Grid item xs={12} sm={6}>
                     <DatePicker
-                        label="Check-out"
-                        select={checkout}
+                        className="datepicker"
+                        placeholderText="Check-out"
+                        selected={checkout}
                         excludeDateIntervals={absences.map(abs => {
                             const startDate = new Date(abs.start);
                             startDate.setDate(startDate.getDate() - 1);
                             startDate.setHours(0,0,0,0);
                             const endDate = new Date(abs.end);
                             endDate.setHours(0,0,0,1);
-                            return ({ start: startDate, end: endDate })
-                        })}
+                            return ({ start: startDate, end: endDate })})}
+
                         onChange={(date) => chooseEndDate(date)}
                     />
+                </Grid>
+                <Grid item sm={6}>
+                    <FormControl fullWidth>
+                    <InputLabel id="select-rooms">Rooms</InputLabel>
+                    <Select
+                        id="rooms"
+                        name="rooms"
+                        value={rooms}
+                        label="Rooms"
+                        onChange={chooseRooms}
+                    >
+                        <MenuItem value={1}>1</MenuItem>
+                        <MenuItem value={2}>2</MenuItem>
+                        <MenuItem value={3}>3</MenuItem>
+                    </Select>
+                    </FormControl>
+                </Grid>
+                <Grid item sm={6}>
+                    <FormControl fullWidth>
+                    <InputLabel id="select-guests">Guests</InputLabel>
+                    <Select
+                        id="guests"
+                        name="guests"
+                        value={guests}
+                        label="Guests"
+                        onChange={chooseGuests}
+                    >
+                        <MenuItem value={1}>1</MenuItem>
+                        <MenuItem value={2}>2</MenuItem>
+                        <MenuItem value={3}>3</MenuItem>
+                        <MenuItem value={4}>4</MenuItem>
+                        <MenuItem value={5}>5</MenuItem>
+                        <MenuItem value={6}>6</MenuItem>
+                    </Select>
+                    </FormControl>
                 </Grid>
                 <Grid item xs={12} sm={6}>
                 <Form.Group className="mb-3" controlId="formFname">
@@ -73,7 +110,7 @@ const BookingForm = ({chooseFirstname, chooseLastname, chooseStartDate, chooseEn
                 </Grid>
                 <Grid item xs={12}>
                     <FormControl fullWidth>
-                    <InputLabel id="demo-simple-select-label">Office</InputLabel>
+                    <InputLabel id="select-office">Office</InputLabel>
                     <Select
                         id="office"
                         name="office"
@@ -87,7 +124,9 @@ const BookingForm = ({chooseFirstname, chooseLastname, chooseStartDate, chooseEn
                         <MenuItem value={"Copenhagen"}>Copenhagen</MenuItem>
                     </Select>
                     </FormControl>
+                    <Typography margin={2}><i> For a traveling party of more than 6 people, send an email to elisabeth.aanestad@fortedigital.no </i></Typography>
                 </Grid>
+
             </Grid>
     </Form>
     )

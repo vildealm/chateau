@@ -25,10 +25,12 @@ const Booking = () => {
 
 
   //State
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
   const [email, setEmail] = useState("");
   const [office, setOffice] = useState("");
+  const [rooms, setRooms] = useState(0);
+  const [guests, setGuests] = useState(0);
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [activeStep, setActiveStep] = React.useState(0);
@@ -37,6 +39,12 @@ const Booking = () => {
   //Function
   const chooseOffice = (event) => {
     setOffice(event.target.value);
+  };
+  const chooseRooms = (event) => {
+    setRooms(event.target.value);
+  };
+  const chooseGuests = (event) => {
+    setGuests(event.target.value);
   };
 
   const handleSubmit = async (e) => {
@@ -50,6 +58,8 @@ const Booking = () => {
           lastname: lastname,
           email: email,
           office: office,
+          guests: guests,
+          rooms: rooms
         })
         .then(console.log);
       sanityClient.fetch("*[_type == 'booking']").then(documents => console.log(documents))
@@ -80,18 +90,26 @@ const Booking = () => {
                   chooseLastname={setLastname}
                   chooseEmail={setEmail}
                   chooseOffice={chooseOffice}
+                  chooseGuests={chooseGuests}
+                  chooseRooms={chooseRooms}
+                  chooseStartDate={setStartDate}
+                  chooseEndDate={setEndDate}
                   office={office}
                   checkin={startDate}
-                  chooseStartDate={setStartDate}
                   checkout={endDate}
-                  chooseEndDate={setEndDate}
+                  guests={guests}
+                  rooms={rooms}
                 />;
       case 1:
         return <Review
+                  checkin={startDate}
+                  checkout={endDate}
                   firstname={firstname}
                   lastname={lastname}
                   email={email}
                   office={office}
+                  guests={guests}
+                  rooms={rooms}
                 />;
       default:
         throw new Error('Unknown step');
@@ -152,17 +170,3 @@ const Booking = () => {
   }
 
 export default Booking;
-/*
-await fetch("./api/booking", {
-        method: "POST",
-        body: JSON.stringify({
-          firstname: firstname,
-          lastname: lastname,
-        }),
-      });
-
-      setFirstname("");
-      setLastname("");
-      setErrMessage("");
-      navigate("/");
-*/
