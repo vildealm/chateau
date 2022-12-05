@@ -7,6 +7,11 @@ export default {
         title: 'Fravær',
         fields: [
         {
+            name: 'description',
+            type: 'string',
+            title: 'Beskrivelse',
+        },
+        {
             name: 'start',
             type: 'datetime',
             title: 'Startdato',
