@@ -1,4 +1,4 @@
-import React, {useRef, useState} from "react";
+import React, { useState} from "react";
 import { useNavigate } from "react-router-dom";
 import Typography from '@mui/material/Typography';
 import Stepper from '@mui/material/Stepper';
@@ -13,16 +13,12 @@ import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import sanityClient from '../client';
 
-
 const steps = ['Booking', 'Review your booking'];
-
-
 
 const Booking = () => {
 
   //Variable
   let navigate = useNavigate();
-
 
   //State
   const [startDate, setStartDate] = useState(new Date());
@@ -101,7 +97,6 @@ const Booking = () => {
           rooms: rooms,
           lunch: lunch,
           dinner: dinner
-
         })
         .then(console.log);
       sanityClient.fetch("*[_type == 'booking']").then(documents => console.log(documents))
@@ -149,7 +144,7 @@ const Booking = () => {
     }
   }
 
-    return (
+  return (
   <>
     <Layout />
     <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
