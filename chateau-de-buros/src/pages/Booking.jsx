@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useRef, useState} from "react";
 import { useNavigate } from "react-router-dom";
 import Typography from '@mui/material/Typography';
 import Stepper from '@mui/material/Stepper';
@@ -29,14 +29,40 @@ const Booking = () => {
   const [endDate, setEndDate] = useState(new Date());
   const [email, setEmail] = useState("");
   const [office, setOffice] = useState("");
-  const [rooms, setRooms] = useState(0);
-  const [guests, setGuests] = useState(0);
+  const [rooms, setRooms] = useState('');
+  const [guests, setGuests] = useState('');
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
-  const [activeStep, setActiveStep] = React.useState(0);
-  const [errMessage, setErrMessage] = useState("");
+  const [activeStep, setActiveStep] = useState(0);
+ // const [errMessage, setErrMessage] = useState("");
+  const [lunch, setLunch] = useState(0);
+  const [dinner, setDinner] = useState(0);
+
 
   //Function
+  const incLunch = () => {
+    if(lunch < guests){
+      setLunch(lunch+1);
+    }
+  };
+
+  const decLunch = () => {
+    if(lunch > 0 ){
+      setLunch(lunch - 1);
+    }
+  };
+  const incDinner = () => {
+    if(dinner < guests){
+      setDinner(dinner+1);
+    }
+  };
+
+  const decDinner = () => {
+    if(dinner > 0 ){
+      setDinner(dinner - 1);
+    }
+  };
+
   const chooseOffice = (event) => {
     setOffice(event.target.value);
   };
@@ -45,28 +71,6 @@ const Booking = () => {
   };
   const chooseGuests = (event) => {
     setGuests(event.target.value);
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    sanityClient
-        .create({
-          _type: "booking",
-          checkin: startDate,
-          checkout: endDate,
-          firstname: firstname,
-          lastname: lastname,
-          email: email,
-          office: office,
-          guests: guests,
-          rooms: rooms
-        })
-        .then(console.log);
-      sanityClient.fetch("*[_type == 'booking']").then(documents => console.log(documents))
-      setFirstname("");
-      setLastname("");
-      setErrMessage("");
-      navigate("/");
   };
 
   const handleNext = () => {
@@ -82,6 +86,28 @@ const Booking = () => {
       navigate(path);
   }
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    sanityClient
+        .create({
+          _type: "booking",
+          checkin: startDate,
+          checkout: endDate,
+          firstname: firstname,
+          lastname: lastname,
+          email: email,
+          office: office,
+          guests: guests,
+          rooms: rooms,
+          lunch: lunch,
+          dinner: dinner
+
+        })
+        .then(console.log);
+      sanityClient.fetch("*[_type == 'booking']").then(documents => console.log(documents))
+      navigate("/");
+  };
+
   const getStepContent = (step) => {
     switch (step) {
       case 0:
@@ -94,11 +120,17 @@ const Booking = () => {
                   chooseRooms={chooseRooms}
                   chooseStartDate={setStartDate}
                   chooseEndDate={setEndDate}
+                  incLunch={incLunch}
+                  decLunch={decLunch}
+                  incDinner={incDinner}
+                  decDinner={decDinner}
                   office={office}
                   checkin={startDate}
                   checkout={endDate}
                   guests={guests}
                   rooms={rooms}
+                  lunch={lunch}
+                  dinner={dinner}
                 />;
       case 1:
         return <Review
@@ -107,9 +139,10 @@ const Booking = () => {
                   firstname={firstname}
                   lastname={lastname}
                   email={email}
-                  office={office}
                   guests={guests}
                   rooms={rooms}
+                  lunch={lunch}
+                  dinner={dinner}
                 />;
       default:
         throw new Error('Unknown step');

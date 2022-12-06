@@ -33,5 +33,25 @@ export default {
         type: 'string',
         title: 'Office'
       },
+      {
+        name: 'guests',
+        type: 'number',
+        title: 'Guests'
+      },
+      {
+        name: 'room',
+        type: 'number',
+        title: 'Room'
+      },
+      {
+        name: 'type',
+        type: 'string',
+        title: 'Type'
+      },
+      {
+        name: 'food',
+        type: 'string',
+        title: 'Food Orderings'
+      },
     ]
   }
