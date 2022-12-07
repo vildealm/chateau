@@ -10,7 +10,6 @@ function About() {
         <h3> Questions & Answers</h3>
         <QA key={1}/>
       <h3> The host</h3>
-
       </>
     );
   }
